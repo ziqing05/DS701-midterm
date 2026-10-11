@@ -11,8 +11,8 @@ The dataset contains 41188 anonymized profiles aquired from a term-deposit campa
 
 | Field Name | Data Type | Description | Example Values | Notes |
 |------------|-----------|-------------|----------------|-------|
-| **age** | Integer | Client's age in years | 56, 57, 37, 40, 45 | Numeric and continuous. |
-| **job** | String (categorical, nominal) | Client's type of job | `admin`, `blue-collar`, `entrepreneur`, `housemaid`, `management`, `retired`, `self-employed`, `services`, `student`, `technician`, `unemployed`, `unknown` | |
+| **age** | Integer | Client's age in years | 56, 57, 37, 40, 45 | Numeric and continuous.<br> Most of them are between 28-48 years old; mean:40 median:38 |
+| **job** | String (categorical, nominal) | Client's type of job | `admin`, `blue-collar`, `entrepreneur`, `housemaid`, `management`, `retired`, `self-employed`, `services`, `student`, `technician`, `unemployed`, `unknown` | `admin`~25.30%;<br>`blue-collar`~22.47%;<br>`technician`~16.37%|
 | **marital** | String (categorical, nominal) | Marital status | `divorced`, `married`, `single`, `unknown` | `divorced` means divorced or widowed.|
 | **education** | String (categorical, ordinal) | Highest education level | `basic.4y`, `basic.6y`, `basic.9y`, `high.school`, `illiterate`, `professional.course`, `university.degree`, `unknown` | Has an arguable natural order of progression |
 | **default** | String (categorical) | Has credit in default? | `no`, `yes`, `unknown` | `yes` is extremely rare in the full dataset (~0.01%). |
