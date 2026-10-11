@@ -15,9 +15,9 @@ The dataset contains 41188 anonymized profiles aquired from a term-deposit campa
 | **job** | String (categorical, nominal) | Client's type of job | `admin`, `blue-collar`, `entrepreneur`, `housemaid`, `management`, `retired`, `self-employed`, `services`, `student`, `technician`, `unemployed`, `unknown` | |
 | **marital** | String (categorical, nominal) | Marital status | `divorced`, `married`, `single`, `unknown` | `divorced` means divorced or widowed.|
 | **education** | String (categorical, ordinal) | Highest education level | `basic.4y`, `basic.6y`, `basic.9y`, `high.school`, `illiterate`, `professional.course`, `university.degree`, `unknown` | Has an arguable natural order of progression |
-| **default** | String (categorical) | Has credit in default? | `no`, `yes`, `unknown` | `yes` is extremely rare in the full dataset (~11.3%). |
-| **housing** | String (categorical) | Has a housing loan? | `no`, `yes`, `unknown` |  |
-| **loan** | String (categorical) | Has a personal loan? | `no`, `yes`, `unknown` |  |
+| **default** | String (categorical) | Has credit in default? | `no`, `yes`, `unknown` | `yes` is extremely rare in the full dataset (~0.01%). |
+| **housing** | String (categorical) | Has a housing loan? | `no`, `yes`, `unknown` | ~52.4% `yes` |
+| **loan** | String (categorical) | Has a personal loan? | `no`, `yes`, `unknown` | ~82.4% `no`|
 | **contact** | String (categorical) | Contact communication type | `cellular`, `telephone` |  |
 | **month** | String (categorical, ordinal) | Month of the last contact | `jan`, `feb`, `mar`, ..., `nov`, `dec` | Lowercase 3-letter abbreviations. |
 | **day_of_week** | String (categorical, ordinal) | Weekday of the last contact | `mon`, `tue`, `wed`, `thu`, `fri` | Lowercase 3-letter abbreviations. |
