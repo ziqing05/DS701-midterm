@@ -48,7 +48,7 @@ The dataset is suited towards *predictive* questions and answers. While there is
 **Predictive:** 
 * Prior to dialing, can we rank future clients based on attributes to capture more term-subscribers than calling at random?
 * Can we predict if new clients will subscribe based on collected attributes?
-
+* Are there ways to predict other attributes of clients based off of logical groups / clusters?
 ### Additional Questions
 
 I've also listed some other questions that could work with the dataset.
@@ -59,3 +59,6 @@ I've also listed some other questions that could work with the dataset.
 **Inferential:**
 * Is the number of contacts per client consistent with a constant-rate (Poisson) process?
 * Do clients who subscribed receive a different number of calls than those who didn’t?
+
+**Mechanistic** 
+* What drives a client to subscribe, and what intersections of classes might have emergent properties?
