@@ -62,3 +62,83 @@ I've also listed some other questions that could work with the dataset.
 
 **Mechanistic** 
 * What drives a client to subscribe, and what intersections of classes might have emergent properties?
+
+## Validation Plan
+
+### 1. Validation Goals
+
+We will test whether we can:
+1. Rank future clients before dialing to find more subscribers within the same contact budget.
+2. Predict subscription (`y`) using information available before the call.
+3. Predict another client attribute using meaningful groups or clusters. We will choose this attribute before final testing.
+
+### 2. Time-Based Split
+
+[UCI](https://archive.ics.uci.edu/dataset/222/bank+marketing) confirms that `bank-additional-full.csv` is ordered by date. We will keep this order to train on earlier records and test on later ones.
+
+| Set | Share | Original rows* | Purpose |
+|---|---|---|---|
+| Training | ~60% | 1–24,712 | Fit preprocessing and models |
+| Validation | ~20% | 24,713–32,950 | Select settings and classification threshold |
+| Test | ~20% | 32,951–41,188 | Evaluate the final model |
+
+*Rows start at 1, excluding the header. Each period keeps its original class distribution.*
+
+After selecting settings, we will refit preprocessing and the model on the first 80%, then test on the last 20% with the threshold fixed.
+
+### 3. Random-Split Comparison
+
+We will keep the EDA's **80%/20% random split**, using `random_state=42` and `stratify=y`.
+
+Using the settings and threshold selected through time-based validation, we will fit preprocessing and the model separately on each split's 80% and evaluate on its 20%. Both use the same features and metrics. **Time-based results are primary; random results are the comparison.**
+
+The existing EDA results remain exploratory; the comparison will be rerun with the final settings. Final test results will not guide further tuning.
+
+### 4. Preventing Data Leakage
+- **Inputs:** For subscription prediction, `yes` is the positive class; exclude `y` and `duration`. Use only features available before dialing.
+- **Preprocessing:** Fit imputation, encoding, scaling, and feature selection on training data only; apply them to validation and test data. Final refitting uses only the development 80%.
+- **Class imbalance:** Resampling and class-weight calculations use training data only. Keep validation and test distributions unchanged.
+- **Model choices:** Select features, models, hyperparameters, thresholds, cluster counts, and metrics using development data, before final testing.
+- **Question 3:** Exclude the predicted attribute and its direct derivatives from clustering inputs. Learn preprocessing, clusters, and group-based prediction rules from training data, then apply them to held-out records.
+
+### 5. Evaluating Results
+
+**Question 1: Ranking Clients**
+Rank clients by predicted subscription score and evaluate the top 10%, assuming we can contact only 10% of clients. This asks: If we can contact only a small share of clients, can the model identify those most likely to subscribe?
+
+**Lift@10% = subscription rate among the top 10% ÷ overall subscription rate in the same evaluation set.**
+
+For example, if the overall subscription rate is 10% and the top group's rate is 30%, lift is 3: the selected clients subscribe at three times the rate expected from random selection.
+- **Lift > 1:** Better than random selection in expectation.
+- **Lift = 1:** Matches random selection in expectation.
+- **Lift < 1:** Worse than random selection in expectation.
+
+Report **Recall@10%**: the share of all actual subscribers captured in the top 10%. We will round the selected count up and break score ties by original row number in ascending order.
+
+**Question 2: Predicting Subscription**
+We will focus on the `yes` class:
+| Metric | What it tells us |
+|---|---|
+| Precision | Of clients predicted as yes, how many actually subscribed? |
+| Recall | Of all actual subscribers, how many did we identify? |
+| F1 | How well do precision and recall balance? |
+| Confusion matrix | How many predictions were correct, false positives, or false negatives? |
+
+Accuracy is supplementary: predicting no for everyone can achieve high accuracy while finding no subscribers.
+
+We will compare models on the validation set, using Lift@10% for ranking and reporting yes precision, recall, and F1 for classification. The classification threshold will maximize validation-set yes F1; ties go to the higher threshold. Model settings and the threshold will be fixed before final testing.
+
+**Question 3: Predicting Other Attributes from Groups**
+**To be completed after team discussion:** specify the attribute to predict and its evaluation metrics before final testing.
+
+### 6. Stability Check
+
+Keeping the model trained on the earliest 60% fixed, we will split the middle 20% validation set into two consecutive halves and calculate Lift@10% for each.
+This check shows whether ranking performance changes over time, using validation data only. If the two periods differ substantially, we will note this in our conclusions.
+
+### 7. Test Set Freeze
+
+After the team confirms this plan and commits the split code, we will record the GitHub commit ID marking the start of the freeze: **to be added**.
+
+Our EDA and random-split experiments have already used the full dataset. From the recorded commit onward, we will stop using test data for exploration, model selection, or tuning. Final testing will take place after all choices are fixed, and we will report the results without further tuning based on test scores.
+
