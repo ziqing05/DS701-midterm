@@ -92,6 +92,8 @@ We will keep the EDA's **80%/20% random split**, using `random_state=42` and `st
 
 Using the settings and threshold selected through time-based validation, we will fit preprocessing and the model separately on each split's 80% and evaluate on its 20%. Both use the same features and metrics. **Time-based results are primary; random results are the comparison.**
 
+Because the Time-based and Random-based testing sets have very different subscription values, the comparison will use **Precision@10%** and normalized lift along each set's base rate, not using just raw lift.
+
 The existing EDA results remain exploratory; the comparison will be rerun with the final settings. Final test results will not guide further tuning.
 
 ### 4. Preventing Data Leakage
@@ -106,14 +108,31 @@ The existing EDA results remain exploratory; the comparison will be rerun with t
 **Question 1: Ranking Clients**
 Rank clients by predicted subscription score and evaluate the top 10%, assuming we can contact only 10% of clients. This asks: If we can contact only a small share of clients, can the model identify those most likely to subscribe?
 
-**Lift@10% = subscription rate among the top 10% ÷ overall subscription rate in the same evaluation set.**
+**$$Lift@10\% = \frac{\text{subscription rate among the top 10\%}}{\text{overall subscription rate in the same evaluation set}}$$**
 
 For example, if the overall subscription rate is 10% and the top group's rate is 30%, lift is 3: the selected clients subscribe at three times the rate expected from random selection.
 - **Lift > 1:** Better than random selection in expectation.
 - **Lift = 1:** Matches random selection in expectation.
 - **Lift < 1:** Worse than random selection in expectation.
 
-Report **Recall@10%**: the share of all actual subscribers captured in the top 10%. We will round the selected count up and break score ties by original row number in ascending order.
+**Lift depends on the base rate.** Even a perfect ranking cannot go beyond $min(P,k)/k \div \text{base rate}$, where $P$ is the number of subscribers in the set and $k$ is the number selected.
+
+Pointing to the initial EDA, our evaluation sets would differ substantially in subscription rate between validation, testing time-splits, and testing random-splits. A raw lift of 3.0 would be near-perfect on the time-based test but poor on the random-split. For this reason, raw lift cannot be compared across datasets. So, for every evaluation set we report:
+
+| Metric | Definition |
+|---|---|
+| Base rate | Subscription rate in the whole evaluation set |
+| Precision@10% | Subscription rate among the selected top 10% |
+| Lift@10% | Precision@10% ÷ base rate |
+| Normalized lift@10% | Subscribers captured in the top 10% ÷ $\min(P, k)$, i.e. the share of the best achievable result (1 = perfect ranking) |
+
+We do not report Recall@10% separately: when the selected group is 10% of the set, Recall@10% = Lift@10% × 0.10 (up to rounding), so it adds no information. Instead, for every evaluation set we report the base rate, Precision@10%, Lift@10%, and normalized lift@10% (subscribers captured in the top 10% ÷ $\min(P, k)$, where $P$ is the number of subscribers and $k$ the number selected).
+
+**Selection and ties.** We select $k = \lceil 0.10 \times n \rceil$ records. Records tied on score are ordered by a random key drawn with a fixed seed (`numpy.random.default_rng(42)`), and we report how many records share the score at the cutoff. We do not break ties by row number: rows are in time order and the subscription rate rises over time, so row-number tie-breaking would systematically favor older, lower-converting records.
+
+**Baselines.** Every model result is compared against:
+- **Random selection:** Lift@10% = 1 by definition.
+- **One-feature rule:** rank by `poutcome == "success"`, with ties broken as above. In the validation set only 162 records have `success` for 824 slots, so the tie-break decides the remaining 662.
 
 **Question 2: Predicting Subscription**
 We will focus on the `yes` class:
@@ -126,6 +145,8 @@ We will focus on the `yes` class:
 
 Accuracy is supplementary: predicting no for everyone can achieve high accuracy while finding no subscribers.
 
+**Baselines:** the majority class (always `no`: yes recall 0, F1 0) and the one-feature rule (predict `yes` if `poutcome == "success"`).
+
 We will compare models on the validation set, using Lift@10% for ranking and reporting yes precision, recall, and F1 for classification. The classification threshold will maximize validation-set yes F1; ties go to the higher threshold. Model settings and the threshold will be fixed before final testing.
 
 **Question 3: Predicting Other Attributes from Groups**
@@ -133,8 +154,7 @@ We will compare models on the validation set, using Lift@10% for ranking and rep
 
 ### 6. Stability Check
 
-Keeping the model trained on the earliest 60% fixed, we will split the middle 20% validation set into two consecutive halves and calculate Lift@10% for each.
-This check shows whether ranking performance changes over time, using validation data only. If the two periods differ substantially, we will note this in our conclusions.
+Keeping the model trained on the earliest 60% fixed, we will split the middle 20% validation set into two consecutive halves and calculate Precision@10%, Lift@10%, and normalized lift@10% for each alongside each half's base rate. This check shows whether ranking performance changes over time, using validation data only. If the two periods differ substantially, we will note this in our conclusions.
 
 ### 7. Test Set Freeze
 
