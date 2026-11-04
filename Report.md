@@ -29,3 +29,8 @@ The chronological model captured about **233 more subscribers than random select
 Validation-half lifts were 1.076 and 1.396, suggesting time-varying improvement; these are development diagnostics, not independent confirmation. Earlier EDA accessed the full dataset, while this run selected the model before final testing. Without client IDs, performance on entirely unseen people remains unverified. Historical ranking gains do not establish additional subscriptions or profit.
 
 **Conclusion:** Under a 10% contact budget, the model improved subscriber ranking in later-period records, with gains varying over time.
+
+
+
+
+# Q3: Are there ways to predict other attributes of clients based off of logical groups / clusters?
