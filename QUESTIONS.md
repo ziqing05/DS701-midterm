@@ -101,7 +101,6 @@ The existing EDA results remain exploratory; the comparison will be rerun with t
 - **Preprocessing:** Fit imputation, encoding, scaling, and feature selection on training data only; apply them to validation and test data. Final refitting uses only the development 80%.
 - **Class imbalance:** Resampling and class-weight calculations use training data only. Keep validation and test distributions unchanged.
 - **Model choices:** Select features, models, hyperparameters, thresholds, cluster counts, and metrics using development data, before final testing.
-- **Question 3:** Exclude the predicted attribute and its direct derivatives from clustering inputs. Learn preprocessing, clusters, and group-based prediction rules from training data, then apply them to held-out records.
 
 ### 5. Evaluating Results
 
