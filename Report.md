@@ -33,7 +33,7 @@ Validation-half lifts were 1.076 and 1.396, suggesting time-varying improvement;
 
 
 
-# Q3: Are there ways to predict other attributes of clients based off of logical groups / clusters?
+# Q3: Master SVD & Clustering Pipeline
 
 **Question:** Are there ways to predict other attributes of clients based off of logical groups / clusters?
 
