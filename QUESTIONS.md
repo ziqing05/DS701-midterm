@@ -158,7 +158,7 @@ Keeping the model trained on the earliest 60% fixed, we will split the middle 20
 
 ### 7. Test Set Freeze
 
-After the team confirms this plan and commits the split code, we will record the GitHub commit ID marking the start of the freeze: **to be added**.
+After the team confirms this plan and commits the split code, we will record the GitHub commit ID marking the start of the freeze: **4ee222cc7d74ee75a81fb73c1ec49b3049be54f6**.
 
 Our EDA and random-split experiments have already used the full dataset. From the recorded commit onward, we will stop using test data for exploration, model selection, or tuning. Final testing will take place after all choices are fixed, and we will report the results without further tuning based on test scores.
 
