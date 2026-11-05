@@ -4,6 +4,16 @@ Checkpoint 01 (10/15) |
 [GitHub Repo](https://github.com/ziqing05/DS701-midterm)
 
 ### Dataset: Bank marketing — `bank-additional-full.csv`
+
+# Questions
+
+The dataset is suited towards *predictive* questions and answers. While there is possibility for other categories, predictive remains the most prominent due to the presence of the outcome variable `y`.
+
+**Predictive:** 
+* Prior to dialing, can we rank future clients based on attributes to capture more term-subscribers than calling at random?
+* Can we predict if new clients will subscribe based on collected attributes?
+* Are there ways to predict other attributes of clients based off of logical groups / clusters?
+
 ## Data Summary
 [Download the Dataset Here](https://archive.ics.uci.edu/static/public/222/bank+marketing.zip).
 
@@ -41,17 +51,9 @@ Majority of `previous` is 0, `poutcome` is more likely to be "failure" when `pre
 
 Only 11.3% of clients ever say yes. A predictive model that says no all the time would be correct 88.7% of the time. This is a class imbalance that will make predictions difficult to make.
 
-## Questions
-
-The dataset is suited towards *predictive* questions and answers. While there is possibility for other categories, predictive remains the most prominent due to the presence of the outcome variable `y`.
-
-**Predictive:** 
-* Prior to dialing, can we rank future clients based on attributes to capture more term-subscribers than calling at random?
-* Can we predict if new clients will subscribe based on collected attributes?
-* Are there ways to predict other attributes of clients based off of logical groups / clusters?
 ### Additional Questions
 
-I've also listed some other questions that could work with the dataset.
+We have also listed some other questions that could work with the dataset.
 
 **Exploratory:**
 * Is calling effort spread evenly across clients, or concentrated on a few?
