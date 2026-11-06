@@ -150,8 +150,6 @@ Accuracy is supplementary: predicting no for everyone can achieve high accuracy 
 
 We will compare models on the validation set, using Lift@10% for ranking and reporting yes precision, recall, and F1 for classification. The classification threshold will maximize validation-set yes F1; ties go to the higher threshold. Model settings and the threshold will be fixed before final testing.
 
-**Question 3: Predicting Other Attributes from Groups**
-**To be completed after team discussion:** specify the attribute to predict and its evaluation metrics before final testing.
 
 ### 6. Stability Check
 
