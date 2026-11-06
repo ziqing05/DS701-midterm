@@ -7,4 +7,4 @@ Completed the Q1 analysis. Compared logistic regression and random forest, evalu
 Completed the Q2 analysis. Compared regularized logistic regression and random forest classifiers; threshold by validation F1. Wrote the Q2 report section. Created initial data summary and insights from QUESTIONS.md.
 
 ## Sachiel Chuckrow — Q3: SVD and Clustering
-Led the Q3 analysis, 
+Completed the Q3 analysis. Combined SVD with a Dendrogram to create logical clusters, and evaluated on many different metrics, including a ROI/CBA chart for the new method. Wrote Q3 report .
